@@ -1,4 +1,4 @@
-*** Essential TypeScript ***
+// ESSENTIAL TYPESCRIPT
 
 1.- En typescript, cuando se inicializa una variable, el tipo de variable que se use,
 hará que esa variable solo acepte ese tipo durante todo el archivo.
@@ -63,3 +63,25 @@ Ejemplo:
 12.- Se puede usar el tipo 'any' libremente, pero esta deja muy fuera las herramientas de typescript.
 
 13.- Al no declarar un tipo en una variable, el default es 'any'
+
+// FUNCTIONS 
+
+14.- Con una función es igual, si se declara dentro de una variable o constante, este nombre solo se podrá usar con funciones
+
+También si no se regresa nada y se había especificado un traceDeprecation, marcaría error.
+
+15.- En una función se puede especificar el tipo de valor que va a regresar, como el siguiente ejemplo:
+
+const addNumbers = (a: number, b: number): number => {
+    return a + b;
+}
+
+16.- Al contrario del punto 14, si se asigna el valor tipo void a una función y esta regresa un valor,
+el editor marcará error
+
+17.- Para agregar un parametro opcional se usa el simbolo '?' de la siguiente manera:
+
+const addNumbers = (a: number, b: number, another?:number): number => {
+    return a + b;
+} 
+
