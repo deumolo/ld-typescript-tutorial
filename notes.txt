@@ -120,3 +120,26 @@ type UserType2 = {
     phone?: number; 
     theme: "dark" | "light";
 }
+
+// INTERFACES
+
+21.- En el caso de necesitar agregar propiedades a un type ya existente, se pueden usar interfaces,
+ya que estas dan la opción de ser heredadas y extendidas, podemos usar el siguiente ejemplo:
+
+interface IUser {
+    username: string;
+    age: number;
+    phone?: number;
+}
+
+interface IEmployee extends IUser {
+    salary: number;
+    position: string;
+}
+
+const employee: IEmployee = {
+    username: "John",
+    age: 30,
+    salary: 5000,
+    position: "Developer"
+}
