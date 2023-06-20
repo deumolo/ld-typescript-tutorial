@@ -85,3 +85,38 @@ const addNumbers = (a: number, b: number, another?:number): number => {
     return a + b;
 } 
 
+// TYPE ALIASES 
+
+18.- Para crear un tipo de variable personalizado, se usa la palabra reservada 'type', esto sirve para funciones 
+en las que la especificacion de tipos pude tomar un tamaño grande, en el siguiente ejemplo se usará para definir
+el tipo de un objeto:
+
+type UserType = {
+    username: string;
+    age: number;
+    phone?: number;
+}
+
+let betterFunction = (user: UserType) => {
+    console.log(user.username);
+}
+
+19.- Un caso raro pero que podía usarse es crear un function prototype, de la siguiente manera:
+
+type printerFunc =  (a:number,b:number) => void
+
+let write : printerFunc = (a,b) => {
+    console.log(a + b);
+}
+
+De esta manera se pude especificar la manera de una función de constuirse y usarse para otras tareas
+
+20.- Usando un valor de opción fija se pueden definir valores aceptados para una variable o propiedad de un objeto,
+esto se hace de la siguiente manera:
+
+type UserType2 = {
+    username: string;
+    age: number;
+    phone?: number; 
+    theme: "dark" | "light";
+}
