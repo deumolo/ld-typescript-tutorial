@@ -1,0 +1,65 @@
+*** Essential TypeScript ***
+
+1.- En typescript, cuando se inicializa una variable, el tipo de variable que se use,
+hará que esa variable solo acepte ese tipo durante todo el archivo.
+
+2.- En caso de que una variable no tenga un valor inicial, se puede declarar el tipo sin un valor inicial.
+
+Ejemplo:
+
+    let testString: string;
+    testString = "hello"
+
+3.- Se pueden asignar multiples tipos a una variable, esto se hace con el simbolo de pipe (|):
+
+Ejemplo:
+
+    let stringOrNumber: string | number;
+    let stringOrNumber: string | number = "hello";
+    let stringOrNumber: stribong | number = 8;
+
+4.- Se puede seguir este patrón de logica para asignar un tipo de valores en un arreglo.
+
+Ejemplo:
+
+    let names = ["John", "Sara", "Ana"];
+
+Este arreglo solo aceptará valores de tipo string al momento de querer agregar nuevos elementos por medio de push.
+
+5.- Para asignar el tipo a un array sin valores iniciales, se puede seguir este ejemplo:
+    let testStringArray : string[];
+
+6.- Para asignar multiples tipos de valores a un array se usa el siguiente ejemplo:
+    let testStringOrNumberArray : (string | number)[];
+    testStringOrNumberArray = ["hello", 8];
+
+7.- Con objetos no es necesario declarar el tipo de variable, ya que se puede hacer de la siguiente manera:
+
+    let testObject = {
+        name: "John",
+        age: 30
+    }
+
+Pero una vez que una propiedad X de un objeto Y es declarada, el tipo de variable de esa propiedad X no puede ser cambiado.
+
+En el ejemplo, name siempre debe ser string y age siempre debe ser numero
+
+8.- No se le puede agregar valores a una propiedad que no existe en un objeto, a menos que se declare el tipo de variable.
+
+9.- Un objeto sin valores iniciales pero con tipos asignados solo puede llenarse completando todos los valores de las propiedades.
+
+10.- Para declarar una propiedad opcional en un objeto, se usa el simbolo de interrogación (?).
+
+Ejemplo:   
+    let userObj2 : {
+        username: string;
+        age: number;
+        isAdmin: boolean;
+        phone?. number;
+    }
+
+11.- Este valor podría existir o no y no marcar una alerta.
+
+12.- Se puede usar el tipo 'any' libremente, pero esta deja muy fuera las herramientas de typescript.
+
+13.- Al no declarar un tipo en una variable, el default es 'any'
