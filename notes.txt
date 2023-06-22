@@ -143,3 +143,65 @@ const employee: IEmployee = {
     salary: 5000,
     position: "Developer"
 }
+
+// GENERICS
+
+22.- Generics en typescript son plantillas de codigo que se pueden usar y reutilizar para seguir un patron de desarrollo
+en nuestros archivos.
+
+23.- En base al siguiente ejemplo de una interfaz que acepta un valor extra como un arreglo de objetos tipo IAuthor o ICategory
+
+interface IPost {
+    id: number;
+    title: string;
+    desc: string;
+    extra: IAuthor[] | ICategory[];
+}
+
+Se puede refactorizar de la siguiente manera, declarando un tipo de variable generico, y declarando que el valor extra pueda
+tomar cualquier tipo de valor.
+
+interface IPostBetter<T> {
+    id: number;
+    title: string;
+    desc: string;
+    extra: T[];
+}
+
+Un ejemplo de implementacion de esta interfaz sería la siguiente:
+
+const testMe: IPostBetter<String> = {
+    id: 1,
+    title: 'test',
+    desc: 'test',
+    extra: ['test', 'test2'],
+};
+
+24.- Para declarar un tipo de variable objeto para utilizarse de una interfaz se extiende el object en T:
+
+interface IPostEvenBetter<T extends Object> {
+    id: 1;
+    title: 'test';
+    desc: 'test';
+    extra: T[];
+}
+
+Para implementar esta interfaz con el valor declarado como objeto se pueden tomar dos alternativas:
+
+a) Se puede declarar la estructura del objeto manualmente:
+
+const testMe2: IPostEvenBetter<{ id: number; username: string }> = {
+    id: 1,
+    title: 'test',
+    desc: 'test',
+    extra: [{ id: 1, username: 'test' }],
+};
+
+b) Se puede agregar una interfaz previamente creada :
+
+const testMe3: IPostEvenBetter<IAuthor> = {
+    id: 1,
+    title: 'test',
+    desc: 'test',
+    extra: [{ id: 1, username: 'test' }],
+};
