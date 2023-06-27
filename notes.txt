@@ -205,3 +205,220 @@ const testMe3: IPostEvenBetter<IAuthor> = {
     desc: 'test',
     extra: [{ id: 1, username: 'test' }],
 };
+
+// React + Typescript -- Props
+
+25.- Para declarar los props usados, en el mismo lugar se pueden declarar los nombres de las propiedades a recibir.
+
+const PostCard = ({ title: string; body: string; }) => {
+  return (
+    <div>
+        <div>{props.title}</div>
+        <div>{props.body}</div>
+    </div>
+  )
+}
+
+export default PostCard
+
+26.- De igual manera si al momento de usar un componente no se le asigna un valor a una propiedad esperada 
+se marcará error
+
+import Postcard from './PostCard'
+
+const PostList = () => {
+  return (
+    <div>
+        <PostCard title="test" body="desc" />
+
+        <!-- En este uso se marcaría un error -->
+        <PostCard />
+    </div>
+  )
+}
+
+export default PostCard
+
+27.- Dentro de un proyecto donde se repitan mucho se pueden crear archivos de tipos de variables personalizados 
+e importarlos donde se necesite.
+
+Se puede crear un archivo PostProps.ts con el siguiente contenido:
+
+export type PostProps: { id: number; title: string; body: string; }
+
+Dentro del componente a utilizar este tipo se importa el archivo y se reemplaza por el código más largo:
+
+import { PostProps } from './PostProps'
+
+const PostCard = ( props: PostProps ) => {
+  return (
+    <div>
+        <div>{props.title}</div>
+        <div>{props.body}</div>
+    </div>
+  )
+}
+
+28.- También se puede especificar cuando un componente recibirá otro componente como parte de sus props, en este 
+caso la propiedad children:
+
+Lo que sería la sintaxis original de react sin typescript para declarar a children como un componente:
+
+const Parent = ({children}) => {
+  return (
+    <div>Parent</div>
+  )
+}
+
+export default Parent
+
+Se puede cambiar a la siguiente manera para especificar que children es un componente:
+
+const Parent = ( {children} : { children: React.ReactNode } ) => {
+  return (  
+    <div>Parent</div>
+  )
+}
+
+export default Parent
+
+Dentro de un componente mayor una página de Next.js se puede usar de la siguiente manera:
+
+import Child from './Child'
+
+const Page = () => {
+  return (  
+    <Parent>
+        <Child />
+    </Parent>
+  )
+}
+
+export default Page
+
+// React + Typescript -- React Event
+
+29.- En funciones se puede declarar el tipo de evento que se va a recibir, dos ejemplos rápidos pueden ser en un 
+evento de click o un cambio en un input.
+
+a) Un ejemplo de un evento de click puede ser el siguiente:
+
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
+Se tiene que declarar primero el evento, y es opcional si se quiere declarar el tipo de elemento que se va a recibir.
+
+En el caso anterior el tipo de evento es React.MouseEvent y el elemento donde se ejecutó el evento es HTMLButtonElement.
+
+b) Un ejemplo de un evento de cambio en un input puede ser el siguiente:
+
+const handleClick = (e: React.ChangeEventHandler<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+
+30.- Una función que contiene un evento y uno o más parametros se declara de la siguiente manera:
+
+const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    e.preventDefault();
+    console.log('Post id : ', id);
+  };
+
+De la misma manera que las funciones anteriores, la declaracion del evento y su elemento relacionado sigue siendo solo
+parametro regular de una funcion.
+
+31.- Al momento de ejecutar una funcion que incluye el objeto e se tiene que declarar de la siguiente manera:
+
+<button onClick={(e) => { handleDelete(e, 2); }}>Print</button>
+
+Al incluir un parametro extra se tiene que incluir el objeto e.
+
+32.- Si la funcion no incluye parametros extra al objeto e se puede declarar de la siguiente manera:
+
+<button onClick={(e) => { handleDelete(); }}>Print</button>
+
+El objeto e se incluiría por default.
+
+// useState 
+
+33.- Para declarar el tipo de dato que se va a recibir en un useState se tiene que declarar de la siguiente manera:
+
+type UserType = {
+    name: string;
+    age: number;
+};
+
+const [user, setUser] = useState<UserType | null>(null);
+
+En caso de que el valor inicial sea null se debe agregar ambas opciones como valores posibles en el tipo a declarar.
+
+// ContextApi 
+
+34.- El siguiente ejemplo es la forma de usar contextapi con typescript:
+
+type StateType = { 
+    theme: string;
+    fontSize: number;
+}
+
+type ActionType = { 
+    type: 'CHANGE_THEME' | 'CHANGE_FONT_SIZE';
+    payload: string | number;
+}
+
+const INITIAL_STATE = {
+    theme: 'dark',
+    fontSize: 14,
+}
+
+const reducer = (state: StateType, action: ActionType) => {
+switch (action.type) {
+    case 'CHANGE_THEME':
+    return {
+        ...state,
+        theme: state.theme === 'dark' ? 'light' : 'dark',
+    };
+    case 'CHANGE_FONT_SIZE':
+    return {
+        ...state,
+        fontSize: action.payload,
+    };
+    default:
+    return state;
+}
+};
+
+export const ThemeContext = createContext<{state: StateType; dispatch: React.Dispatch<ActionType>}>; 
+
+35.- Para usar el contextapi se tiene que declarar de la siguiente manera:
+
+const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+
+export const ThemeProvider = ({children: React.ReactNode}) => {
+    return <ThemeContext.Provider  value={{state, dispatch}} >{children}</ThemeContext.Provider>;
+}
+
+En el ejemplo anterior se puede observar que para utilizar nuestro reducer y context provider inicial escritos con typescript
+la unica diferencia es al momento de crear el context provider, donde se tiene que declarar el tipo de dato que se va a recibir
+que en este caso es el de react node para los elementos que serán envueltos por el provider.
+
+// useRef
+
+36.- Para usar typescript con la creación de una referencia, sencillamente solo se tiene que declarar el elemento html de la 
+siguiente manera:
+
+const inputRef = useRef<HTMLInputElement>(null);
+
+// Typescript Combined Types and Exclude
+
+37.- Usando el operador OR, se pueden declarar un combinado de opciones para cierta variable, por ejemplo:
+
+type ShapeType = "cube" | "circle" | "square";
+
+Esto haría que una variable o propiedad que use este tipo de dato solo pueda recibir uno de los tres valores declarados.
+
+38.- Usando el operador Exclude se puede excluir una de las opciones declaradas en el tipo de dato, por ejemplo:
+type TwoDimensionalShape = Exclude<ShapeType, "cube">;
+
+Esto haría que una variable o propiedad que use este tipo de dato solo pueda recibir uno de los dos valores declarados,
+dejando fuera el valor asignado en el exclude.
